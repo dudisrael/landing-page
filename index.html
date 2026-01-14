@@ -404,7 +404,7 @@
             <h2>בדיקת זכאות לשיפור מצב החובות</h2>
             <p>השאירו פרטים ונחזור אליכם לשיחה דיסקרטית וממוקדת, ללא התחייבות.</p>
 
-            <form method="post" action="https://script.google.com/macros/s/AKfycbx0l3bvf_D1khZv038PSzrnMaqHXFj_avq6ZeXtkMIf02kcMFGrdSMuqihPD6llQEZU/exec", {>
+            <form id="leadForm">
                 <div class="form-group">
                     <label for="name">שם מלא*</label>
                     <input type="text" id="name" name="name" required placeholder="לדוגמה: יוסי כהן">
@@ -734,7 +734,31 @@
             "</div>";
     }
 </script>
+<script>
+  document.getElementById('leadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const reason = document.getElementById('reason').value;
+    const message = document.getElementById('message').value;
+
+    fetch("https://script.google.com/macros/s/AKfycbx0l3bvf_D1khZv038PSzrnMaqHXFj_avq6ZeXtkMIf02kcMFGrdSMuqihPD6llQEZU/exec", {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name, email, phone, reason, message
+      })
+    })
+    .then(res => {
+      alert("הפרטים נשלחו בהצלחה!");
+      document.getElementById('leadForm').reset();
+    })
+    .catch(err => {
+      alert("אירעה שגיאה בשליחה. נסו שוב.");
+    });
+  });
+</script>
 
 </body>
 </html>
-
