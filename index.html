@@ -735,6 +735,7 @@
     }
 </script>
 <script>
+  <script>
   document.getElementById('leadForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('name').value;
@@ -743,30 +744,7 @@
     const reason = document.getElementById('reason').value;
     const message = document.getElementById('message').value;
 
-   document.getElementById('leadForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const phone = document.getElementById('phone').value;
-  const reason = document.getElementById('reason').value;
-  const message = document.getElementById('message').value;
-
-  fetch("https://script.google.com/macros/s/AKfyc.../exec", {  // ← תדביק כאן את ה-URL המלא שלך
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name, email, phone, reason, message
-    })
-  })
-  .then(res => {
-    alert("הפרטים נשלחו בהצלחה!");
-    document.getElementById('leadForm').reset();
-  })
-  .catch(err => {
-    alert("אירעה שגיאה בשליחה. נסו שוב.");
-  });
-});
-
+    fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -782,8 +760,3 @@
     });
   });
 </script>
-
-</body>
-</html>
-
-
