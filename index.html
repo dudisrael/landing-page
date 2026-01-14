@@ -1,762 +1,177 @@
+
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>פתרון חובות וליווי פיננסי – בדיקת זכאות ותשלום חודשי משוער</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <style>
-        /* Reset בסיסי */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "Helvetica Neue", sans-serif;
-            background-color: #f5f5f5;
-            color: #222;
-            direction: rtl;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        /* מבנה כללי */
-        .page-wrapper {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 16px 40px;
-        }
-
-        header {
-            padding: 16px 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            font-weight: 800;
-            font-size: 1.2rem;
-        }
-
-        .logo span {
-            font-weight: 400;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .phone-top {
-            font-size: 0.95rem;
-        }
-
-        .phone-top a {
-            font-weight: 700;
-        }
-
-        /* Hero */
-        .hero {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 24px;
-            display: grid;
-            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-            gap: 24px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-        }
-
-        .hero-main-title {
-            font-size: 1.9rem;
-            line-height: 1.3;
-            margin-bottom: 10px;
-        }
-
-        .hero-main-title strong {
-            display: block;
-        }
-
-        .hero-subtitle {
-            font-size: 1rem;
-            color: #444;
-            margin-bottom: 16px;
-        }
-
-        .hero-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .badge {
-            background: #eef6ff;
-            border-radius: 999px;
-            padding: 6px 12px;
-            font-size: 0.8rem;
-            color: #1d4ed8;
-            border: 1px solid #d0e2ff;
-        }
-
-        .hero-list-title {
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .hero-list {
-            list-style: none;
-            margin-bottom: 10px;
-        }
-
-        .hero-list li::before {
-            content: "✔";
-            margin-left: 6px;
-            color: #16a34a;
-        }
-
-        .hero-list li {
-            margin-bottom: 4px;
-            font-size: 0.95rem;
-        }
-
-        .hero-note {
-            font-size: 0.8rem;
-            color: #777;
-            margin-top: 6px;
-        }
-
-        /* טופס */
-        .form-card {
-            background: #0f172a;
-            color: #ffffff;
-            border-radius: 16px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .form-card h2 {
-            font-size: 1.2rem;
-            margin-bottom: 6px;
-        }
-
-        .form-card p {
-            font-size: 0.9rem;
-            margin-bottom: 14px;
-            color: #e5e7eb;
-        }
-
-        .form-group {
-            margin-bottom: 10px;
-        }
-
-        label {
-            display: block;
-            font-size: 0.85rem;
-            margin-bottom: 4px;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 8px 10px;
-            border-radius: 8px;
-            border: 1px solid #cbd5f5;
-            font-size: 0.9rem;
-            font-family: inherit;
-        }
-
-        textarea {
-            min-height: 70px;
-            resize: vertical;
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 10px 14px;
-            border-radius: 999px;
-            border: none;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            background: #22c55e;
-            color: #0b1120;
-            margin-top: 4px;
-        }
-
-        .btn-primary:hover {
-            filter: brightness(1.05);
-        }
-
-        .form-disclaimer {
-            margin-top: 8px;
-            font-size: 0.75rem;
-            color: #9ca3af;
-            line-height: 1.3;
-        }
-
-        /* קטעים */
-        .section {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 18px rgba(0,0,0,0.03);
-        }
-
-        .section h2 {
-            font-size: 1.3rem;
-            margin-bottom: 12px;
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0,1fr));
-            gap: 12px;
-        }
-
-        .benefit-item {
-            background: #f9fafb;
-            border-radius: 12px;
-            padding: 10px;
-            font-size: 0.9rem;
-        }
-
-        .benefit-title {
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        /* איך זה עובד */
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .step {
-            background: #f9fafb;
-            border-radius: 12px;
-            padding: 12px;
-            font-size: 0.9rem;
-            position: relative;
-        }
-
-        .step-number {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: #e5f8ff;
-            border-radius: 999px;
-            padding: 2px 8px;
-            font-size: 0.75rem;
-            color: #0369a1;
-        }
-
-        .step-title {
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        /* המלצות */
-        .testimonials {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0,1fr));
-            gap: 12px;
-        }
-
-        .testimonial {
-            background: #f9fafb;
-            border-radius: 12px;
-            padding: 10px;
-            font-size: 0.85rem;
-        }
-
-        .testimonial-name {
-            font-weight: 700;
-            margin-bottom: 3px;
-        }
-
-        .testimonial-meta {
-            font-size: 0.75rem;
-            color: #6b7280;
-            margin-bottom: 4px;
-        }
-
-        /* FAQ */
-        .faq-item {
-            margin-bottom: 10px;
-        }
-
-        .faq-q {
-            font-weight: 700;
-            margin-bottom: 3px;
-        }
-
-        .faq-a {
-            font-size: 0.9rem;
-            color: #374151;
-        }
-
-        /* פוטר */
-        footer {
-            font-size: 0.8rem;
-            color: #6b7280;
-            margin-top: 16px;
-            text-align: center;
-        }
-
-        footer p {
-            margin-bottom: 4px;
-        }
-
-        /* רספונסיביות */
-        @media (max-width: 900px) {
-            .hero {
-                grid-template-columns: 1fr;
-            }
-
-            .benefits-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .steps {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .testimonials {
-                grid-template-columns: repeat(2, minmax(0,1fr));
-            }
-        }
-
-        @media (max-width: 600px) {
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
-            }
-
-            .benefits-grid,
-            .steps,
-            .testimonials {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-main-title {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>פתרון חובות וליווי פיננסי – בדיקת זכאות ותשלום חודשי משוער</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      direction: rtl;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .form-card {
+      background: #0f172a;
+      color: white;
+      padding: 24px;
+      border-radius: 12px;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-family: inherit;
+    }
+    button {
+      margin-top: 16px;
+      padding: 12px;
+      width: 100%;
+      background: #22c55e;
+      border: none;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    #calc_result {
+      margin-top: 16px;
+      background: white;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1>פתרון חובות ישראל – בדיקת זכאות ותשלום משוער</h1>
 
-<div class="page-wrapper">
-
-    <header>
-        <div class="logo">
-            פתרון חובות ישראל
-            <span>ליווי וייעוץ פיננסי</span>
-        </div>
-        <div class="phone-top">
-            יש שאלות? דברו איתנו:
-            <a href="tel:03-0000000">04-6099105</a>
-        </div>
-    </header>
-
-    <!-- HERO + FORM -->
-    <section class="hero">
-        <div>
-            <h1 class="hero-main-title">
-                <strong>ההלוואות החוץ־בנקאיות חונקות?</strong>
-                יש פתרון חכם לניהול החובות.
-            </h1>
-            <p class="hero-subtitle">
-                בדיקת זכאות ללא התחייבות – ליווי פיננסי מקצועי, בדיקה האם ניתן לאחד הלוואות,
-                להקל בתשלומים ולבנות מסלול מותאם אישית.
-            </p>
-
-            <div class="hero-badges">
-                <div class="badge">בדיקת זכאות טלפונית קצרה</div>
-                <div class="badge">ללא התחייבות וללא עלות</div>
-                <div class="badge">שמירה מלאה על דיסקרטיות</div>
-            </div>
-
-            <p class="hero-list-title">אם אתם מרגישים ש:</p>
-            <ul class="hero-list">
-                <li>יש לכם כמה הלוואות חוץ־בנקאיות ותשלום חודשי גבוה</li>
-                <li>אתם במינוס קבוע וההחזר רק גדל</li>
-                <li>הבנק או חברת האשראי כבר לא מאשרים לכם מסגרות נוספות</li>
-            </ul>
-
-            <p><strong>זה בדיוק השלב שבו שיחה עם מומחה יכולה לשנות את התמונה.</strong></p>
-
-            <p class="hero-note">
-                איננו מציעים "מחיקת חובות" ואיננו גוף ממשלתי. השירות הוא ייעוץ וליווי פיננסי בלבד,
-                כולל בחינת פתרונות מימון אפשריים בהתאם ליכולת והמצב הפיננסי.
-            </p>
-        </div>
-
-        <div class="form-card" id="form">
-            <h2>בדיקת זכאות לשיפור מצב החובות</h2>
-            <p>השאירו פרטים ונחזור אליכם לשיחה דיסקרטית וממוקדת, ללא התחייבות.</p>
-
-            <form id="leadForm">
-                <div class="form-group">
-                    <label for="name">שם מלא*</label>
-                    <input type="text" id="name" name="name" required placeholder="לדוגמה: יוסי כהן">
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">טלפון נייד*</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="לדוגמה: 050-0000000">
-                </div>
-
-                <div class="form-group">
-                    <label for="email">אימייל (לא חובה)</label>
-                    <input type="email" id="email" name="email" placeholder="name@example.com">
-                </div>
-
-                <div class="form-group">
-                    <label for="reason">סיבת פנייה</label>
-                    <select id="reason" name="reason">
-                        <option value="">בחרו...</option>
-                        <option value="unite">איחוד הלוואות</option>
-                        <option value="spread">פריסת חוב</option>
-                        <option value="advice">ייעוץ פיננסי</option>
-                        <option value="other">אחר</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="message">תיאור קצר (לא חובה)</label>
-                    <textarea id="message" name="message" placeholder="ספרו לנו בקצרה על מצב ההלוואות או המינוס שלכם..."></textarea>
-                </div>
-
-                <button type="submit" class="btn-primary">
-                    רוצה לדבר עם מומחה ולבדוק אם יש לי פתרון
-                </button>
-
-                <p class="form-disclaimer">
-                    על־ידי שליחת הטופס אני מאשר/ת יצירת קשר טלפוני ו/או ב-SMS/ווטסאפ
-                    לצורך ביצוע בדיקת זכאות ומתן מידע על השירות.
-                </p>
-            </form>
-        </div>
-    </section>
-
-    <!-- יתרונות -->
-    <section class="section">
-        <h2>מה אנחנו עושים בשבילכם?</h2>
-        <div class="benefits-grid">
-            <div class="benefit-item">
-                <div class="benefit-title">איחוד הלוואות חוץ־בנקאיות</div>
-                <p>בדיקה האם ניתן לרכז כמה הלוואות חיצוניות להחזר חודשי אחד ברור ומנוהל.</p>
-            </div>
-            <div class="benefit-item">
-                <div class="benefit-title">תכנון תזרים משפחתי</div>
-                <p>ניתוח הכנסות והוצאות, זיהוי "חורים" ושיפור ההתנהלות הכספית ביום־יום.</p>
-            </div>
-            <div class="benefit-item">
-                <div class="benefit-title">בדיקת פתרונות מימון</div>
-                <p>בדיקת אפשרויות מימון חוקיות ומפוקחות בהתאם לפרופיל הלקוח והיכולת לעמוד בהחזרים.</p>
-            </div>
-            <div class="benefit-item">
-                <div class="benefit-title">ליווי אישי ודיסקרטי</div>
-                <p>מלווה אישי שמנהל את התהליך איתכם, מסביר כל צעד ושומר על דיסקרטיות מלאה.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- איך זה עובד -->
-    <section class="section">
-        <h2>איך התהליך עובד?</h2>
-        <div class="steps">
-            <div class="step">
-                <div class="step-number">שלב 1</div>
-                <div class="step-title">השארת פרטים ובדיקת התאמה</div>
-                <p>ממלאים פרטים בסיסיים או מתקשרים אלינו, ומקבלים שיחה ראשונית קצרה לבדיקת התאמה.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">שלב 2</div>
-                <div class="step-title">אבחון פיננסי</div>
-                <p>ממפים יחד את ההלוואות, המסגרות, ההכנסות וההוצאות – ומסתכלים על התמונה המלאה.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">שלב 3</div>
-                <div class="step-title">בניית פתרון וליווי</div>
-                <p>מקבלים תכנית פעולה ברורה ויישומית, כולל ליווי ביישום הפתרון והפחתת הלחץ החודשי.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- מחשבון תשלום חודשי -->
-    <section class="section" id="payment-calculator">
-        <h2>מחשבון תשלום חודשי משוער לפי טבלת הממונה</h2>
-        <p>
-            המחשבון נותן הערכה לתשלום חודשי אפשרי בהסדרת תשלומים, על בסיס הכנסה נטו של משק הבית,
-            מספר נפשות, והוצאות מיוחדות – בדומה לאופן החישוב בטבלת הממונה.
+    <div class="form-card">
+      <h2>בדיקת זכאות לשיפור מצב החובות</h2>
+      <p>השאירו פרטים ונחזור אליכם לשיחה דיסקרטית וממוקדת, ללא התחייבות.</p>
+      <form id="leadForm">
+        <label for="name">שם מלא*</label>
+        <input type="text" id="name" name="name" required>
+        <label for="phone">טלפון נייד*</label>
+        <input type="tel" id="phone" name="phone" required>
+        <label for="email">אימייל (לא חובה)</label>
+        <input type="email" id="email" name="email">
+        <label for="reason">סיבת פנייה</label>
+        <select id="reason" name="reason">
+          <option value="">בחרו...</option>
+          <option value="unite">איחוד הלוואות</option>
+          <option value="spread">פריסת חוב</option>
+          <option value="advice">ייעוץ פיננסי</option>
+          <option value="other">אחר</option>
+        </select>
+        <label for="message">תיאור קצר (לא חובה)</label>
+        <textarea id="message" name="message"></textarea>
+        <button type="submit">רוצה לדבר עם מומחה ולבדוק אם יש לי פתרון</button>
+        <p style="font-size: 0.85rem; color: #ccc; margin-top: 10px;">
+          תודה! הפרטים התקבלו ונחזור אליך בהקדם האפשרי.
         </p>
+      </form>
+    </div>
 
-        <div style="background:#f9fafb; padding:16px; border-radius:12px; margin-top:12px;">
-            <form id="calc-form" onsubmit="event.preventDefault(); calculateMonthlyPayment();">
+    <hr style="margin:40px 0;">
 
-                <div class="form-group">
-                    <label for="calc_adults">מבנה משפחתי</label>
-                    <select id="calc_adults" name="calc_adults">
-                        <option value="1">יחיד / נשוי חי בנפרד</option>
-                        <option value="2">זוג</option>
-                    </select>
-                </div>
+    <div>
+      <h2>מחשבון תשלום חודשי לפי טבלת הממונה</h2>
+      <form id="calc-form" onsubmit="event.preventDefault(); calculateMonthlyPayment();">
+        <label for="calc_adults">מבנה משפחתי</label>
+        <select id="calc_adults" name="calc_adults">
+          <option value="1">יחיד / נשוי חי בנפרד</option>
+          <option value="2">זוג</option>
+        </select>
+        <label for="calc_children">מספר ילדים</label>
+        <input type="number" id="calc_children" name="calc_children" min="0" value="0">
+        <label for="calc_debtor_income">שכר נטו של החייב (₪)</label>
+        <input type="number" id="calc_debtor_income">
+        <label for="calc_spouse_income">שכר נטו בן/בת זוג (₪)</label>
+        <input type="number" id="calc_spouse_income">
+        <label for="calc_other_income">הכנסות אחרות (₪)</label>
+        <input type="number" id="calc_other_income">
+        <label for="calc_medical">הוצאות רפואיות חריגות (₪)</label>
+        <input type="number" id="calc_medical">
+        <label for="calc_travel">הוצאות נסיעה (₪)</label>
+        <input type="number" id="calc_travel">
+        <label for="calc_children_expenses">הוצאות טיפול בילדים (₪)</label>
+        <input type="number" id="calc_children_expenses">
+        <label for="calc_other_expenses">הוצאות נוספות (₪)</label>
+        <input type="number" id="calc_other_expenses">
+        <button type="submit">חשב תשלום חודשי משוער</button>
+      </form>
+      <div id="calc_result"></div>
+    </div>
+  </div>
 
-                <div class="form-group">
-                    <label for="calc_children">מספר ילדים</label>
-                    <input type="number" id="calc_children" name="calc_children" min="0" value="0">
-                    <small style="font-size:0.8rem; color:#6b7280;">
-                        1–4 ילדים – ‎1,500 ₪ לכל ילד, מהילד החמישי – ‎1,300 ₪ לכל ילד.
-                    </small>
-                </div>
-
-                <div class="form-group">
-                    <label for="calc_debtor_income">שכר נטו חודשי של החייב (₪)</label>
-                    <input type="number" id="calc_debtor_income" placeholder="לדוגמה: 10219">
-                </div>
-
-                <div class="form-group">
-                    <label for="calc_spouse_income">שכר נטו חודשי של בן/בת הזוג (אם יש) (₪)</label>
-                    <input type="number" id="calc_spouse_income" placeholder="אם אין – השאר ריק">
-                </div>
-
-                <div class="form-group">
-                    <label for="calc_other_income">הכנסות אחרות (קצבאות, שכירות וכו') (₪)</label>
-                    <input type="number" id="calc_other_income" placeholder="אם אין – השאר ריק">
-                </div>
-
-                <hr style="margin:14px 0; border:none; border-top:1px solid #e5e7eb;">
-
-                <div class="form-group">
-                    <label for="calc_medical">הוצאות רפואיות חריגות מוכרות (₪)</label>
-                    <input type="number" id="calc_medical" placeholder="אם אין – השאר ריק">
-                </div>
-
-                <div class="form-group">
-                    <label for="calc_travel">הוצאות נסיעה לעבודה (אם מוכרות) (₪)</label>
-                    <input type="number" id="calc_travel" placeholder="אם אין – השאר ריק">
-                </div>
-
-                <div class="form-group">
-                    <label for="calc_children_expenses">הוצאות טיפול בילדים שאינם זכאים לחינוך חינם (₪)</label>
-                    <input type="number" id="calc_children_expenses" placeholder="אם אין – השאר ריק">
-                </div>
-
-                <div class="form-group">
-                    <label for="calc_other_expenses">הוצאות מיוחדות נוספות (אם קיימות) (₪)</label>
-                    <input type="number" id="calc_other_expenses" placeholder="לא חובה">
-                </div>
-
-                <button type="submit" class="btn-primary" style="margin-top:10px;">
-                    חשב תשלום חודשי משוער
-                </button>
-            </form>
-
-            <div id="calc_result" style="margin-top:15px; font-size:0.95rem;"></div>
-        </div>
-
-        <p style="font-size:0.8rem; color:#6b7280; margin-top:8px;">
-            המחשבון נותן הערכה בלבד ואינו מחליף חישוב רשמי של הממונה או ייעוץ משפטי/פיננסי אישי.
-        </p>
-    </section>
-
-    <!-- המלצות -->
-    <section class="section">
-        <h2>לקוחות שסידרו מחדש את החובות שלהם</h2>
-        <div class="testimonials">
-            <div class="testimonial">
-                <div class="testimonial-name">אורן, בן 39 ממרכז הארץ</div>
-                <div class="testimonial-meta">3 הלוואות חוץ־בנקאיות + מינוס גבוה</div>
-                <p>
-                    "הרגשתי שאני רץ אחרי הזנב של עצמי. אחרי האבחון גיליתי שאפשר לאחד חלק מההלוואות
-                    ולהוריד את ההחזר החודשי בלי לקחת עוד הלוואה. זה הוריד לי המון מהלחץ."
-                </p>
-            </div>
-            <div class="testimonial">
-                <div class="testimonial-name">שירן, 34</div>
-                <div class="testimonial-meta">הלוואת רכב + כרטיסי אשראי</div>
-                <p>
-                    "קיבלתי תמונה ברורה מה כדאי לסגור קודם ומה לפרוס. עצם זה שמישהו ישב איתי והסביר
-                    לי מספרים פשוטים עשה סדר בראש."
-                </p>
-            </div>
-            <div class="testimonial">
-                <div class="testimonial-name">משפחה צעירה</div>
-                <div class="testimonial-meta">ליווי למשפחה עם שני ילדים</div>
-                <p>
-                    "הבנו איך לנהל את החודש בלי להיכנס ללחץ מכל חיוב. היום יש לנו תכנית ברורה
-                    מתי אנחנו יוצאים מהחובות."
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="section">
-        <h2>שאלות נפוצות</h2>
-
-        <div class="faq-item">
-            <div class="faq-q">האם אתם מוחקים חובות?</div>
-            <div class="faq-a">
-                לא. אנחנו לא גוף ממשלתי ולא מציעים "מחיקת חובות". מה שאנחנו כן עושים זה אבחון פיננסי
-                מקצועי וליווי בבחינת פתרונות חוקיים ומפוקחים לניהול חובות והלוואות.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-q">האם הבדיקה עולה כסף?</div>
-            <div class="faq-a">
-                בדיקת ההתאמה הראשונית והאבחון הראשוני הטלפוני הם ללא התחייבות וללא עלות.
-                המשך ליווי, אם תבחרו בו, יוסבר לכם מראש בצורה שקופה.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-q">האם הפרטים שלי נשמרים בסוד?</div>
-            <div class="faq-a">
-                כן. אנחנו מחויבים לדיסקרטיות מלאה. המידע משמש לצורך ביצוע הבדיקה והצעת פתרונות בלבד,
-                בהתאם למדיניות הפרטיות ולחוק.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-q">תוך כמה זמן חוזרים אליי?</div>
-            <div class="faq-a">
-                ברוב המקרים ניצור קשר תוך יום עסקים אחד. אם הפנייה דחופה, אפשר גם להתקשר ישירות למספר המופיע באתר.
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <p>© כל הזכויות שמורות – פתרון חובות ישראל</p>
-        <p>איננו בנק, ואיננו גוף ממשלתי. השירות הינו ייעוץ וליווי בלבד, כולל בחינת אפשרויות מימון חוץ־בנקאי בהתאם לחוק.</p>
-    </footer>
-
-</div>
-
-<!-- סקריפט המחשבון -->
-<script>
-    // קריאת מספר משדה (אם ריק מחזיר 0)
-    function getNum(id) {
-        var el = document.getElementById(id);
-        if (!el) return 0;
-        var value = (el.value || "").toString().replace(/,/g, "");
-        var num = parseFloat(value);
-        return isNaN(num) ? 0 : num;
-    }
-
-    // סכום בסיסי למחיה לפי טבלת הממונה (לפי מה שנראה באקסל)
-    function calcBaseLiving(adults, children) {
-        var base;
-        if (adults === 1) {
-            base = 4556; // יחיד / נשוי חי בנפרד
-        } else {
-            base = 6024; // זוג
-        }
-
-        if (children > 0) {
-            var firstFour = Math.min(children, 4);
-            var extra = Math.max(0, children - 4);
-            base += firstFour * 1500 + extra * 1300;
-        }
-
-        return base;
-    }
-
-    function calculateMonthlyPayment() {
-        var adults   = parseInt(document.getElementById("calc_adults").value, 10) || 1;
-        var children = parseInt(document.getElementById("calc_children").value, 10) || 0;
-
-        var debtorIncome = getNum("calc_debtor_income");
-        var spouseIncome = getNum("calc_spouse_income");
-        var otherIncome  = getNum("calc_other_income");
-
-        var medical      = getNum("calc_medical");
-        var travel       = getNum("calc_travel");
-        var kidsExp      = getNum("calc_children_expenses");
-        var otherExp     = getNum("calc_other_expenses");
-
-        var totalIncome  = debtorIncome + spouseIncome + otherIncome;
-        var baseLiving   = calcBaseLiving(adults, children);
-        var specialExp   = medical + travel + kidsExp + otherExp;
-
-        var disposable   = totalIncome - baseLiving - specialExp; // הכנסה פנויה
-
-        if (disposable < 0) {
-            disposable = 0;
-        }
-
-        // חלק יחסי של החייב בהכנסות (כמו תא שמחשב B17 אצלך)
-        var share = 1;
-        if (totalIncome > 0 && debtorIncome > 0) {
-            share = debtorIncome / totalIncome;
-        }
-
-        // לפי האקסל: (הכנסה פנויה * חלק יחסי) / 2
-        var monthlyPayment = disposable * share / 2;
-
-        if (monthlyPayment < 0) {
-            monthlyPayment = 0;
-        }
-
-        // עיגול ל־10 ₪
-        var rounded = Math.round(monthlyPayment / 10) * 10;
-
-        var resultDiv = document.getElementById("calc_result");
-
-        if (totalIncome === 0) {
-            resultDiv.innerHTML = "<span style='color:#b91c1c;'>לא הוזנו הכנסות, לא ניתן לחשב.</span>";
-            return;
-        }
-
-        resultDiv.innerHTML =
-            "<div style='background:#ffffff; border-radius:10px; padding:12px; border:1px solid #e5e7eb;'>" +
-                "<p><strong>ההכנסה החודשית הכוללת:</strong> " + totalIncome.toLocaleString() + " ₪</p>" +
-                "<p><strong>הסכום הבסיסי למחיה לפי טבלת הממונה:</strong> " + baseLiving.toLocaleString() + " ₪</p>" +
-                "<p><strong>הוצאות מיוחדות שנוכו:</strong> " + specialExp.toLocaleString() + " ₪</p>" +
-                "<p><strong>ההכנסה הפנויה של משק הבית:</strong> " + disposable.toLocaleString() + " ₪</p>" +
-                "<p><strong>החלק היחסי של החייב בהכנסות:</strong> " + (share * 100).toFixed(0) + "%</p>" +
-                "<hr style='margin:8px 0; border:none; border-top:1px solid #e5e7eb;'>" +
-                "<p style='font-size:1.05rem;'>" +
-                    "<strong>תשלום חודשי משוער לפי טבלת הממונה:</strong> " +
-                    "<span style='font-size:1.2rem;'> " + rounded.toLocaleString() + " ₪</span>" +
-                "</p>" +
-            "</div>";
-    }
-</script>
-<script>
   <script>
-  document.getElementById('leadForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
-    const reason = document.getElementById('reason').value;
-    const message = document.getElementById('message').value;
-
-    fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name, email, phone, reason, message
+    document.getElementById('leadForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const reason = document.getElementById('reason').value;
+      const message = document.getElementById('message').value;
+      fetch("https://script.google.com/macros/s/AKfycby4mu1H_s6BIgbO5LBFR4ozg53iFlWDhj4SOp0IIeUQztOzhfgnVc6kaZmHBt9AbQ0M/exec", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, reason, message })
       })
-    })
-    .then(res => {
-      alert("הפרטים נשלחו בהצלחה!");
-      document.getElementById('leadForm').reset();
-    })
-    .catch(err => {
-      alert("אירעה שגיאה בשליחה. נסו שוב.");
+      .then(() => alert("✅ תודה! הפרטים נשלחו בהצלחה. נחזור אליך בהקדם."))
+      .catch(() => alert("❌ אירעה שגיאה בשליחה. נסה שוב בעוד רגע."));
     });
-  });
-</script>
+
+    function getNum(id) {
+      const val = parseFloat(document.getElementById(id).value.replace(/,/g, "")) || 0;
+      return val;
+    }
+    function calcBaseLiving(adults, children) {
+      let base = adults === 1 ? 4556 : 6024;
+      const first = Math.min(children, 4);
+      const rest = Math.max(0, children - 4);
+      base += first * 1500 + rest * 1300;
+      return base;
+    }
+    function calculateMonthlyPayment() {
+      const adults = parseInt(document.getElementById("calc_adults").value) || 1;
+      const children = parseInt(document.getElementById("calc_children").value) || 0;
+      const debtorIncome = getNum("calc_debtor_income");
+      const spouseIncome = getNum("calc_spouse_income");
+      const otherIncome = getNum("calc_other_income");
+      const medical = getNum("calc_medical");
+      const travel = getNum("calc_travel");
+      const kidsExp = getNum("calc_children_expenses");
+      const otherExp = getNum("calc_other_expenses");
+      const totalIncome = debtorIncome + spouseIncome + otherIncome;
+      const baseLiving = calcBaseLiving(adults, children);
+      const specialExp = medical + travel + kidsExp + otherExp;
+      let disposable = totalIncome - baseLiving - specialExp;
+      if (disposable < 0) disposable = 0;
+      const share = totalIncome > 0 ? debtorIncome / totalIncome : 1;
+      let monthly = (disposable * share) / 2;
+      monthly = Math.max(0, Math.round(monthly / 10) * 10);
+      document.getElementById("calc_result").innerHTML = `
+        <p><strong>הכנסה כוללת:</strong> ${totalIncome.toLocaleString()} ₪</p>
+        <p><strong>הוצאה בסיסית למחיה:</strong> ${baseLiving.toLocaleString()} ₪</p>
+        <p><strong>הוצאות מיוחדות:</strong> ${specialExp.toLocaleString()} ₪</p>
+        <p><strong>הכנסה פנויה:</strong> ${disposable.toLocaleString()} ₪</p>
+        <p><strong>חלק החייב בהכנסה:</strong> ${(share * 100).toFixed(0)}%</p>
+        <hr><p style="font-size:1.2rem;"><strong>תשלום חודשי משוער:</strong> ${monthly.toLocaleString()} ₪</p>`;
+    }
+  </script>
+</body>
+</html>
